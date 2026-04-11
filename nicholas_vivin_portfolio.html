@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nicholas Vivin A — AI Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #05080f;
+      --surface: #0b1018;
+      --card: #0f1520;
+      --border: rgba(100,180,255,0.1);
+      --accent: #00c8ff;
+      --accent2: #7b6eff;
+      --text: #dce8f5;
+      --muted: rgba(220,232,245,0.45);
+      --faint: rgba(220,232,245,0.12);
+      --mono: 'IBM Plex Mono', monospace;
+      --display: 'Instrument Serif', serif;
+      --sans: 'Syne', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID NOISE BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,200,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,200,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 3rem;
+      background: rgba(5,8,15,0.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-logo span { color: var(--muted); }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 3rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow-line {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .eyebrow-text {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: var(--display);
+      font-size: clamp(54px, 8vw, 100px);
+      font-weight: 400;
+      line-height: 1.0;
+      color: var(--text);
+      margin-bottom: 0.2em;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-subtitle {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 2.5rem;
+      margin-top: 1rem;
+    }
+
+    .hero-desc {
+      max-width: 600px;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 13px 28px;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #05080f;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-item { text-align: left; }
+
+    .stat-num {
+      font-family: var(--display);
+      font-size: 40px;
+      font-style: italic;
+      color: var(--accent);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 6rem 3rem;
+    }
+
+    .section-tag {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 3rem;
+    }
+
+    .section-tag::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--accent2);
+    }
+
+    .section-tag span {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 3rem;
+    }
+
+    /* ── FEATURED PROJECT ── */
+    .featured-card {
+      background: var(--card);
+      border: 1px solid rgba(0,200,255,0.15);
+      border-radius: 12px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-card::before {
+      content: 'FEATURED';
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 4px 10px;
+      border-radius: 40px;
+    }
+
+    .featured-card::after {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,200,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .proj-year {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+
+    .proj-title {
+      font-family: var(--display);
+      font-size: 32px;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .proj-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 680px;
+      margin-bottom: 1.5rem;
+    }
+
+    .bullets {
+      list-style: none;
+      margin-bottom: 1.75rem;
+    }
+
+    .bullets li {
+      font-size: 13px;
+      color: rgba(220,232,245,0.6);
+      line-height: 1.75;
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.4rem;
+    }
+
+    .bullets li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1.75rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 5px 12px;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      color: var(--muted);
+    }
+
+    .tag.accent { border-color: rgba(0,200,255,0.3); color: var(--accent); }
+
+    .demo-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(0,200,255,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+
+    .demo-link:hover { border-color: var(--accent); }
+
+    /* ── PROJECTS GRID ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .proj-card {
+      background: var(--card);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+
+    .proj-card:hover { background: #111c2a; }
+
+    /* ── SKILLS ── */
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .skill-group {
+      margin-bottom: 2rem;
+    }
+
+    .skill-group-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+
+    .skill-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--faint);
+    }
+
+    .skill-name {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .skill-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--faint);
+    }
+
+    .dot.filled { background: var(--accent); }
+
+    /* ── EXPERIENCE ── */
+    .exp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .exp-role {
+      font-family: var(--display);
+      font-size: 20px;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .exp-company {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.08em;
+      margin-top: 3px;
+    }
+
+    .exp-year {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 6rem 3rem;
+    }
+
+    .contact-section .section-title { margin-bottom: 1rem; }
+
+    .contact-sub {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.06em;
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .contact-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: rgba(220,232,245,0.25);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero h1        { animation: fadeUp 0.8s ease both; }
+    .hero-subtitle  { animation: fadeUp 0.8s 0.15s ease both; }
+    .hero-desc      { animation: fadeUp 0.8s 0.25s ease both; }
+    .hero-cta       { animation: fadeUp 0.8s 0.35s ease both; }
+    .hero-stats     { animation: fadeUp 0.8s 0.45s ease both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      section, .hero { padding: 4rem 1.5rem; }
+      .skills-layout { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .hero-stats { gap: 2rem; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo"><span>~/</span>nicholasvivin</div>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-line"></span>
+      <span class="eyebrow-text">Entry-Level AI Engineer · Madurai, TN</span>
+    </div>
+    <h1>Nicholas<br><em>Vivin A</em></h1>
+    <p class="hero-subtitle">Machine Learning · Computer Vision · Full-Stack AI</p>
+    <p class="hero-desc">
+      AI Engineering graduate with hands-on experience building end-to-end machine learning pipelines,
+      computer vision applications, and AI-powered full-stack platforms. Turning data into intelligent,
+      scalable systems that solve real-world problems.
+    </p>
+    <div class="hero-cta">
+      <a href="https://localfix-frontend.vercel.app" target="_blank" class="btn btn-primary">View Live Project ↗</a>
+      <a href="https://linkedin.com/in/nicholasvivina" target="_blank" class="btn btn-outline">LinkedIn</a>
+      <a href="https://github.com/nicholasvivina" target="_blank" class="btn btn-outline">GitHub</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">AI/ML Projects</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2026</span>
+        <span class="stat-label">B.Tech Graduate</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">7.6</span>
+        <span class="stat-label">CGPA / 10</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2</span>
+        <span class="stat-label">Certifications</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECT -->
+  <section id="projects">
+    <div class="section-tag"><span>Featured Project</span></div>
+    <h2 class="section-title">LocalFix — Civic AI Platform</h2>
+
+    <div class="featured-card">
+      <p class="proj-year">2024 · Deployed</p>
+      <p class="proj-title">AI-Powered Civic Complaint Automation</p>
+      <p class="proj-desc">
+        An AI-driven civic platform allowing citizens to submit geo-tagged images for automated
+        complaint classification and intelligent routing to the correct government department —
+        enabling transparent, real-time complaint tracking.
+      </p>
+      <ul class="bullets">
+        <li>Built full image classification pipeline with dual-role dashboard for Citizens & Government Officials</li>
+        <li>Developed secure REST APIs with FastAPI for complaint submission, status management & automated email notifications</li>
+        <li>Integrated React.js frontend with Neon PostgreSQL cloud database for scalable, secure data storage</li>
+        <li>Reduced manual administrative overhead significantly via intelligent department routing</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tag accent">Python</span>
+        <span class="tag accent">FastAPI</span>
+        <span class="tag accent">React.js</span>
+        <span class="tag accent">Image Classification</span>
+        <span class="tag">Neon PostgreSQL</span>
+        <span class="tag">REST API</span>
+        <span class="tag">Vercel</span>
+      </div>
+      <a href="https://localfix-frontend.vercel.app" target="_blank" class="demo-link">
+        localfix-frontend.vercel.app ↗
+      </a>
+    </div>
+  </section>
+
+  <!-- OTHER PROJECTS -->
+  <section style="padding-top: 0;">
+    <div class="section-tag"><span>More Projects</span></div>
+    <div class="projects-grid">
+
+      <div class="proj-card">
+        <p class="proj-year">2024 · Computer Vision</p>
+        <p class="proj-title" style="font-family:'Instrument Serif',serif; font-size:22px; font-style:italic; margin-bottom:0.75rem;">Driipster — 3D Clothing Measurement Tool</p>
+        <p class="proj-desc">Image-based body measurement estimation system using OpenCV to automate clothing measurement extraction from user-uploaded photos with real-time feedback.</p>
+        <div class="tech-tags">
+          <span class="tag accent">Python</span>
+          <span class="tag accent">OpenCV</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">React.js</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <p class="proj-year">2023 · Machine Learning</p>
+        <p class="proj-title" style="font-family:'Instrument Serif',serif; font-size:22px; font-style:italic; margin-bottom:0.75rem;">Restaurant Rating Prediction</p>
+        <p class="proj-desc">Trained and compared Linear Regression, Decision Tree & Random Forest models with full EDA, feature engineering and hyperparameter tuning. Evaluated via RMSE & R².</p>
+        <div class="tech-tags">
+          <span class="tag accent">Scikit-learn</span>
+          <span class="tag accent">Pandas</span>
+          <span class="tag">NumPy</span>
+          <span class="tag">Matplotlib</span>
+          <span class="tag">Seaborn</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-tag"><span>Technical Skills</span></div>
+    <h2 class="section-title">What I work with</h2>
+    <div class="skills-layout">
+      <div>
+        <div class="skill-group">
+          <p class="skill-group-title">ML / AI</p>
+          <div class="skill-row"><span class="skill-name">Supervised / Unsupervised Learning</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></div></div>
+          <div class="skill-row"><span class="skill-name">Computer Vision (OpenCV)</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
+          <div class="skill-row"><span class="skill-name">Feature Engineering</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></div></div>
+          <div class="skill-row"><span class="skill-name">Scikit-learn</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
+        </div>
+        <div class="skill-group">
+          <p class="skill-group-title">Backend / APIs</p>
+          <div class="skill-row"><span class="skill-name">FastAPI</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
+          <div class="skill-row"><span class="skill-name">REST API Development</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
+          <div class="skill-row"><span class="skill-name">PostgreSQL</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group">
+          <p class="skill-group-title">Languages</p>
+          <div class="skill-row"><span class="skill-name">Python</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></div></div>
+          <div class="skill-row"><span class="skill-name">JavaScript</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div></div>
+          <div class="skill-row"><span class="skill-name">SQL</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div></div>
+        </div>
+        <div class="skill-group">
+          <p class="skill-group-title">Frontend & Analytics</p>
+          <div class="skill-row"><span class="skill-name">React.js</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
+          <div class="skill-row"><span class="skill-name">Power BI / EDA</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></div></div>
+          <div class="skill-row"><span class="skill-name">Git / GitHub</span><div class="skill-dots"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE & EDUCATION -->
+  <section id="experience">
+    <div class="section-tag"><span>Experience & Education</span></div>
+    <h2 class="section-title">Background</h2>
+
+    <div class="exp-card">
+      <div class="exp-header">
+        <div>
+          <p class="exp-role">Data Science Intern</p>
+          <p class="exp-company">Cognifyz Technologies</p>
+        </div>
+        <span class="exp-year">2023</span>
+      </div>
+      <ul class="bullets">
+        <li>Cleaned and preprocessed structured datasets; conducted EDA to identify patterns and performance trends using Python</li>
+        <li>Contributed to feature engineering, model training and validation using accuracy, precision, recall and RMSE metrics</li>
+        <li>Supported data-driven visualization and reporting for business datasets</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">EDA</span><span class="tag">Feature Engineering</span>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-header">
+        <div>
+          <p class="exp-role">B.Tech — AI & Data Science</p>
+          <p class="exp-company">Solamalai College of Engineering, Tamil Nadu</p>
+        </div>
+        <span class="exp-year">2022 – 2026</span>
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:0.75rem;">CGPA: 7.6 / 10</p>
+      <div class="tech-tags">
+        <span class="tag">Machine Learning</span>
+        <span class="tag">Artificial Intelligence</span>
+        <span class="tag">Data Mining</span>
+        <span class="tag">Statistical Analysis</span>
+        <span class="tag">Data Visualization</span>
+        <span class="tag">DBMS</span>
+      </div>
+    </div>
+
+    <div class="exp-card" style="margin-top:1.5rem;">
+      <p class="exp-role" style="font-family:'Instrument Serif',serif; font-size:18px; font-style:italic; margin-bottom:0.75rem;">Certifications</p>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap;">
+        <div style="background:rgba(0,200,255,0.05); border:1px solid rgba(0,200,255,0.15); border-radius:8px; padding:1rem 1.5rem;">
+          <p style="font-size:13px; color:var(--text); font-weight:600;">Professional Data Science</p>
+          <p style="font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:0.08em; margin-top:4px;">IBM / Coursera</p>
+        </div>
+        <div style="background:rgba(123,110,255,0.05); border:1px solid rgba(123,110,255,0.15); border-radius:8px; padding:1rem 1.5rem;">
+          <p style="font-size:13px; color:var(--text); font-weight:600;">Python & Machine Learning</p>
+          <p style="font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:0.08em; margin-top:4px;">GUVI</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-section">
+    <div class="section-tag" style="justify-content:center;"><span>Get in Touch</span></div>
+    <h2 class="section-title">Let's build something<br><em style="color:var(--accent);">intelligent</em> together</h2>
+    <p class="contact-sub">Open to entry-level AI Engineer & ML Engineer roles</p>
+    <div class="contact-links">
+      <a href="mailto:nicholasvivin1010@gmail.com" class="contact-pill">✉ nicholasvivin1010@gmail.com</a>
+      <a href="tel:+917010518243" class="contact-pill">☏ +91 7010518243</a>
+      <a href="https://linkedin.com/in/nicholasvivina" target="_blank" class="contact-pill">in LinkedIn</a>
+      <a href="https://github.com/nicholasvivina" target="_blank" class="contact-pill">⌥ GitHub</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Nicholas Vivin A — AI Engineer</span>
+    <span>Madurai, Tamil Nadu, India</span>
+  </footer>
+
+</body>
+</html>
